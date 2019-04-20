@@ -1,4 +1,3 @@
-const blacklist = require('express-jwt-blacklist');
 const mongoose = require('mongoose');
 const moment = require('moment');
 const Child = require('../models/childModel');
