@@ -1,6 +1,6 @@
 module.exports = {
     // 1. MongoDB
-    MONGO_URI: process.env.MONGO_URI || 'mongodb://localhost:27017/wishbox',
+    MONGO_URI: process.env.MONGO_URI || 'mongodb://localhost:27017/piczzie',
 
     // 2. JWT
     TOKEN_SECRET: 'eRV7lJx8hDwf5rfE4O1WLaCb2Lne6aUs',
