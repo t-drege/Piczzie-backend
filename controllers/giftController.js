@@ -217,6 +217,16 @@ exports.deleteGift = function (req, res) {
     })
 };
 
+exports.getGiftChildren = function (req, res) {
+    Gift.find({child: req.params.id}, function (err, gifts) {
+        if(err){
+            res.status(500)
+        }else {
+            res.status(200).send(gifts)
+        }
+    })
+};
+
 
 
 

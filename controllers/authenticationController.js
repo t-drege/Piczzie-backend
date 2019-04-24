@@ -9,12 +9,14 @@ exports.registration = function (req, res) {
 };
 
 exports.authentication = function (req, res) {
+    console.log(req.body)
     let user = new User(req.body);
     User.getAuthenticated(user, function (null_response, token, refreshToken, doc) {
         if (token == null) {
             res.status(403);
         } else {
             let array = {token: token, refresh_token: refreshToken};
+            console.log(array)
             res.json(array);
         }
     })

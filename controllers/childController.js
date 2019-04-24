@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-const moment = require('moment');
 const Child = require('../models/childModel');
-
 
 exports.createChild = function(req, res){
 
