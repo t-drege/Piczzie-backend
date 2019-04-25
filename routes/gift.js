@@ -20,6 +20,6 @@ router.put('/update/:id/user', gift_controller.updateGiftUser);
 
 router.delete('/delete/:id', gift_controller.deleteGift);
 
-router.delete('/child/:id', gift_controller.getGiftChildren);
+router.get('/child/:id', gift_controller.getGiftChildren);
 
 module.exports = router;

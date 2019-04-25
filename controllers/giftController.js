@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Gift = require('../models/giftModel');
 const User = require('../models/usersModel');
 const upload = require('../utils/UploadConfig');
+const sizeOf = require('image-size');
 const fs = require('fs');
 let objectId = mongoose.Types.ObjectId;
 
@@ -16,6 +17,10 @@ exports.create = function (req, res) {
         let gift = new Gift(JSON.parse(req.body.gift));
         gift.user_id = req.user.user._id;
         gift.image = req.file.path;
+
+        console.log(gift.width);
+        console.log(gift.height);
+
         gift.save(function (err) {
             return res.send({
                 success: true
@@ -224,7 +229,7 @@ exports.getGiftChildren = function (req, res) {
         }else {
             res.status(200).send(gifts)
         }
-    })
+    }).populate({path: "user_id child user_reserved_id"})
 };
 
 
