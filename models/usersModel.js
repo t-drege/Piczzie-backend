@@ -2,8 +2,8 @@ let mongoose = require('mongoose');
 let bcrypt = require('bcryptjs');
 let jsonwebtoken = require('jsonwebtoken');
 let fs = require('fs');
-let randToken = require('rand-token');
 let config = require('../config');
+const Gift = require('../models/giftModel');
 
 let Schema = mongoose.Schema;
 
@@ -54,6 +54,16 @@ userSchema.post('save', function (doc, next) {
         if (err) throw err;
         next()
     });
+});
+
+userSchema.pre('remove', function (doc, next) {
+    Gift.updateMany({child: doc.id}, {$unset: {child: 1}}, function (err, gift) {
+        if (err) {
+            throw err;
+        } else {
+            next()
+        }
+    })
 });
 
 userSchema.methods.comparePassword = function (candidatePassword, callback) {

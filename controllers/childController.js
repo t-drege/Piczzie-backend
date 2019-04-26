@@ -38,3 +38,17 @@ exports.updateChild = function (req, res) {
         }
     }).populate({path: 'parent'})
 };
+
+
+exports.removeChild = function (req, res) {
+   Child.findOneAndRemove({_id: req.params.id}, function (err, child) {
+       if(err){
+           res.status(500);
+           throw err;
+       }else {
+           res.status(200).send(child)
+       }
+   })
+};
+
+
