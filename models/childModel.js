@@ -1,5 +1,6 @@
-let mongoose = require('mongoose');
-let Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const Gift = require('../models/giftModel');
 
 let childSchema = new Schema({
     firstname: {type: String, required: true},
@@ -9,6 +10,19 @@ let childSchema = new Schema({
     parent: {type: Schema.Types.ObjectId, ref: 'User', required: true}
 });
 
+
+
+childSchema.pre('remove', function (doc, next) {
+    Gift.updateMany({child: doc.id}, {$unset: {child: 1}}, function (err, gift) {
+        if (err) {
+            throw err;
+        } else {
+            next()
+        }
+    })
+});
+
 let Child = mongoose.model('Child', childSchema);
+
 
 module.exports = Child;

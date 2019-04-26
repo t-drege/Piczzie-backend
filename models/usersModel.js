@@ -3,7 +3,6 @@ let bcrypt = require('bcryptjs');
 let jsonwebtoken = require('jsonwebtoken');
 let fs = require('fs');
 let config = require('../config');
-const Gift = require('../models/giftModel');
 
 let Schema = mongoose.Schema;
 
@@ -56,15 +55,6 @@ userSchema.post('save', function (doc, next) {
     });
 });
 
-userSchema.pre('remove', function (doc, next) {
-    Gift.updateMany({child: doc.id}, {$unset: {child: 1}}, function (err, gift) {
-        if (err) {
-            throw err;
-        } else {
-            next()
-        }
-    })
-});
 
 userSchema.methods.comparePassword = function (candidatePassword, callback) {
     bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
