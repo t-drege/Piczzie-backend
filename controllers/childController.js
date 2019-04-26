@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Child = require('../models/childModel');
 
-exports.createChild = function(req, res){
+exports.createChild = function (req, res) {
 
     let child = new Child(req.body);
     child.parent = mongoose.Types.ObjectId(req.user.user._id);
@@ -20,4 +20,21 @@ exports.getChildren = function (req, res) {
         }
         res.status(200).send(children)
     })
+};
+
+
+exports.updateChild = function (req, res) {
+    Child.findOneAndUpdate({_id: req.params.id}, {$set: req.body}, {
+        new: true,
+        upsert: false,
+        remove: {},
+        fields: {}
+    }, function (err, child) {
+        if (err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else {
+            res.status(200).send(child)
+        }
+    }).populate({path: 'parent'})
 };
