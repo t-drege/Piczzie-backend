@@ -41,7 +41,8 @@ exports.updateChild = function (req, res) {
 
 
 exports.removeChild = function (req, res) {
-   Child.findOneAndRemove({_id: req.params.id}, function (err, child) {
+    console.log(req.params.id);
+   Child.remove({_id: req.params.id}, function (err, child) {
        if(err){
            res.status(500);
            throw err;

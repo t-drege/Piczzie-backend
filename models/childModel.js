@@ -11,8 +11,8 @@ let childSchema = new Schema({
 });
 
 
-
 childSchema.pre('remove', function (doc, next) {
+    console.log(doc);
     Gift.updateMany({child: doc.id}, {$unset: {child: 1}}, function (err, gift) {
         if (err) {
             throw err;

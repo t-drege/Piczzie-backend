@@ -11,4 +11,6 @@ router.get('/children', child_controller.getChildren);
 /* UPDATE CHILD */
 router.put('/:id', child_controller.updateChild);
 
+router.delete('/:id', child_controller.removeChild);
+
 module.exports = router;
