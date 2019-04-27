@@ -41,15 +41,16 @@ exports.updateChild = function (req, res) {
 
 
 exports.removeChild = function (req, res) {
-    console.log(req.params.id);
-   Child.remove({_id: req.params.id}, function (err, child) {
-       if(err){
-           res.status(500);
-           throw err;
-       }else {
-           res.status(200).send(child)
-       }
-   })
+    Child.findOne({_id: req.params.id}, function (err, child) {
+        child.remove(function (err) {
+            if (err) {
+                res.status(500);
+                throw err;
+            } else {
+                res.status(200).send(child)
+            }
+        });
+    })
 };
 
 
