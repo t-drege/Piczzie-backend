@@ -8,7 +8,11 @@ exports.createChild = function (req, res) {
 
     child.save(function (err) {
         if (err) throw err;
-        res.status(200).send(child)
+        child.populate({
+            path: 'parent'
+        }, function(err, doc) {
+            res.status(200).send(doc);
+        });
     });
 };
 
@@ -34,6 +38,7 @@ exports.updateChild = function (req, res) {
             console.log(err);
             res.status(500).send(err);
         } else {
+            console.log(child);
             res.status(200).send(child)
         }
     }).populate({path: 'parent'})

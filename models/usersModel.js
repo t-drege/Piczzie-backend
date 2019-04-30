@@ -82,7 +82,7 @@ userSchema.statics.getAuthenticated = function (user, callback) {
                 if (isMatch) {
                     // return the jwt
                     let payload = {'sub': doc._id, 'user': doc};
-                    var token = jsonwebtoken.sign(payload, config.TOKEN_SECRET, {expiresIn: '1d'});
+                    var token = jsonwebtoken.sign(payload, config.TOKEN_SECRET, {expiresIn: '1  d'});
                     var tokenRefresh = jsonwebtoken.sign(payload, config.TOKEN_SECRET, {expiresIn: '7d'});
                     return callback(null, token, tokenRefresh, doc);
                 } else {
