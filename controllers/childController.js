@@ -10,7 +10,7 @@ exports.createChild = function (req, res) {
         if (err) throw err;
         child.populate({
             path: 'parent'
-        }, function(err, doc) {
+        }, function (err, doc) {
             res.status(200).send(doc);
         });
     });
@@ -35,10 +35,9 @@ exports.updateChild = function (req, res) {
         fields: {}
     }, function (err, child) {
         if (err) {
-            console.log(err);
+            throw err
             res.status(500).send(err);
         } else {
-            console.log(child);
             res.status(200).send(child)
         }
     }).populate({path: 'parent'})
