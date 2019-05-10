@@ -75,7 +75,7 @@ exports.revokeToken = function (req, res) {
 
 exports.getFriends = function (req, res) {
     User.aggregate([
-        {$match: {_id: mongoose.Types.ObjectId(req.user.user._id)}},
+        {$match: {_id: mongoose.Types.ObjectId(req.params.id)}},
         {
             $project: {
                 friends: {

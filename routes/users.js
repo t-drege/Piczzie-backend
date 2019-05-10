@@ -12,7 +12,7 @@ router.get('/:id', users_controller.user);
 router.post('/token', users_controller.refreshToken);
 
 //GET friends
-router.get('/friends', users_controller.getFriends);
+router.get('/friends/:id', users_controller.getFriends);
 
 // Revoke user token
 router.post('/revoke', users_controller.revokeToken);
