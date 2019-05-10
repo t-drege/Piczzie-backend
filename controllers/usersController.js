@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 let config = require('../config');
 
 exports.user = function (req, res) {
-    User.findOne({_id: req.user.user._id}, function (err, user) {
+    User.findOne({_id: mongoose.Types.ObjectId(req.params.id)}, function (err, user) {
         if (err) {
             res.status(500);
             throw err

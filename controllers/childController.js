@@ -17,7 +17,7 @@ exports.createChild = function (req, res) {
 };
 
 exports.getChildren = function (req, res) {
-    Child.find({parent: req.user.user._id}, {parent: false}, function (err, children) {
+    Child.find({parent: req.params.id}, {parent: false}, function (err, children) {
         if (err) {
             res.status(500);
             throw err

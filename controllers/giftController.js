@@ -177,7 +177,7 @@ exports.updateGiftUser = function (req, res) {
 
 
 exports.getGiftsUser = function (req, res) {
-    Gift.find({user_id: mongoose.Types.ObjectId(req.user.user._id)}, {
+    Gift.find({user_id: mongoose.Types.ObjectId(req.params.id)}, {
         user_id: false,
         user_reserved_id: false
     }, function (err, gifts) {

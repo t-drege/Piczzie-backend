@@ -6,7 +6,7 @@ const router = express.Router();
 router.post('/', child_controller.createChild);
 
 /* GET LIST CHILDREN */
-router.get('/children', child_controller.getChildren);
+router.get('/children/:id', child_controller.getChildren);
 
 /* UPDATE CHILD */
 router.put('/:id', child_controller.updateChild);

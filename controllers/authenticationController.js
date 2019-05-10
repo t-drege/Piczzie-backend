@@ -14,7 +14,8 @@ exports.authentication = function (req, res) {
         if (token == null) {
             res.status(403);
         } else {
-            let array = {token: token, refresh_token: refreshToken, uid: user.id};
+            console.log(doc.id);
+            let array = {token: token, refresh_token: refreshToken, uid: doc.id};
             res.status(200).send(array);
         }
     })

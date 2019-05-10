@@ -10,7 +10,7 @@ router.get('/friends', gift_controller.getGiftsFriends);
 
 router.get('/friends/update', gift_controller.getYoungerGiftsFriends);
 
-router.get('/user',gift_controller.getGiftsUser);
+router.get('/user/:id',gift_controller.getGiftsUser);
 
 router.get('/user/reservation',gift_controller.getGiftReservation);
 

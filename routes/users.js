@@ -6,7 +6,7 @@ let router = express.Router();
 router.get('/users', users_controller.users_list);
 
 /* GET one user listing. */
-router.get('/', users_controller.user);
+router.get('/:id', users_controller.user);
 
 // Create new token
 router.post('/token', users_controller.refreshToken);
