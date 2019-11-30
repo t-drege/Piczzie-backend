@@ -1,8 +1,8 @@
-let User = require('../models/usersModel');
-let jsonwebtoken = require('jsonwebtoken');
-let blacklist = require('express-jwt-blacklist');
+const User = require('../models/usersModel');
+const jsonwebtoken = require('jsonwebtoken');
+const blacklist = require('express-jwt-blacklist');
 const mongoose = require('mongoose');
-let config = require('../config');
+const config = require('../config');
 
 exports.user = function (req, res) {
     User.findOne({_id: mongoose.Types.ObjectId(req.params.id)}, function (err, user) {
@@ -129,4 +129,38 @@ exports.deleteFriend = function (req, res) {
             }
         });
 };
+
+
+exports.updateRelationship = async function (req, res) {
+
+    let friends_id = req.body.friends_id;
+    let user_id = req.body.user_id;
+
+    let friends = [
+        updateFriends(friends_id, user_id),
+        updateFriends(user_id, friends_id)
+    ];
+
+    let promise = friends.map( (friend) => {
+        return friend
+    });
+
+    await Promise.all(promise
+    ).then((doc) => {
+        res.status(200).send(doc)
+    }).catch((err) => {
+        res.status(500).send(err);
+    });
+};
+
+function updateFriends(user_id, friends_id) {
+   return User.findOneAndUpdate({
+        "_id": mongoose.Types.ObjectId(user_id),
+        "friends.friends_id": mongoose.Types.ObjectId(friends_id)
+    }, {
+        "$set": {
+            "friends.$.state": 1
+        },
+    });
+}
 

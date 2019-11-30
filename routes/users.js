@@ -20,4 +20,6 @@ router.post('/revoke', users_controller.revokeToken);
 //DELETE friends
 router.delete('/friends/:id', users_controller.deleteFriend);
 
+router.put('/update/friends', users_controller.updateRelationship);
+
 module.exports = router;

@@ -22,6 +22,7 @@ exports.getChildren = function (req, res) {
             res.status(500);
             throw err
         }
+        console.log(children)
         res.status(200).send(children)
     })
 };
