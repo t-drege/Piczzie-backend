@@ -132,35 +132,81 @@ exports.deleteFriend = function (req, res) {
 
 
 exports.updateRelationship = async function (req, res) {
-
-    let friends_id = req.body.friends_id;
+    console.log(req.body.state);
     let user_id = req.body.user_id;
+    let friends_id = req.body.friends_id;
+    let state = req.body.state;
+    let state2 = 1;
+    let friends = [];
 
-    let friends = [
-        updateFriends(friends_id, user_id),
-        updateFriends(user_id, friends_id)
-    ];
+    if (state == 0) {
+        friends = [addFriend(user_id, friends_id, state),
+            addFriend(friends_id, user_id, state2)
+        ];
+    } else if (state == 2) {
+        friends = [updateFriends(user_id, friends_id, state),
+            updateFriends(friends_id, user_id, state)
+        ];
+    } else {
+        friends = [removeFriend(user_id, friends_id, state),
+            removeFriend(friends_id, user_id, state)
+        ];
+    }
 
-    let promise = friends.map( (friend) => {
+
+    let promise = friends.map((friend) => {
         return friend
     });
 
     await Promise.all(promise
     ).then((doc) => {
+        console.log(doc);
         res.status(200).send(doc)
     }).catch((err) => {
         res.status(500).send(err);
     });
 };
 
-function updateFriends(user_id, friends_id) {
-   return User.findOneAndUpdate({
+function updateFriends(user_id, friends_id, state) {
+    return User.findOneAndUpdate({
         "_id": mongoose.Types.ObjectId(user_id),
         "friends.friends_id": mongoose.Types.ObjectId(friends_id)
     }, {
         "$set": {
-            "friends.$.state": 1
+            "friends.$.state": state
         },
     });
+}
+
+function removeFriend(user_id, friend_id) {
+    return User.updateOne({
+            _id: user_id
+        },
+        {
+            $pull:
+                {
+                    "friends":
+                        {
+                            friends_id: friend_id
+                        }
+                }
+        });
+}
+
+function addFriend(user_id, friend_id, state) {
+    console.log(state);
+    return User.findOneAndUpdate({
+            _id: user_id
+        },
+        {
+            $push:
+                {
+                    "friends":
+                        {
+                            friends_id: friend_id,
+                            state: state
+                        }
+                }
+        });
 }
 
