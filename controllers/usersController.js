@@ -19,13 +19,7 @@ exports.user = function (req, res) {
         password: true,
         birthday: true,
         photo: true,
-        friends:
-            {
-                $elemMatch:
-                    {
-                        state: 2
-                    }
-            },
+        friends: true
     });
 };
 
@@ -84,7 +78,7 @@ exports.getFriends = function (req, res) {
                         as: 'friend',
                         cond: {
                             $eq:
-                                ['$$friend.state', 2]
+                                ['$$friend.state', 3]
                         }
                     }
                 },
@@ -132,18 +126,18 @@ exports.deleteFriend = function (req, res) {
 
 
 exports.updateRelationship = async function (req, res) {
-    console.log(req.body.state);
+
     let user_id = req.body.user_id;
     let friends_id = req.body.friends_id;
     let state = req.body.state;
-    let state2 = 1;
+    let state2 = 2;
     let friends = [];
 
-    if (state == 0) {
+    if (state == 1) {
         friends = [addFriend(user_id, friends_id, state),
             addFriend(friends_id, user_id, state2)
         ];
-    } else if (state == 2) {
+    } else if (state == 3) {
         friends = [updateFriends(user_id, friends_id, state),
             updateFriends(friends_id, user_id, state)
         ];
@@ -153,14 +147,12 @@ exports.updateRelationship = async function (req, res) {
         ];
     }
 
-
     let promise = friends.map((friend) => {
         return friend
     });
 
     await Promise.all(promise
     ).then((doc) => {
-        console.log(doc);
         res.status(200).send(doc)
     }).catch((err) => {
         res.status(500).send(err);
@@ -168,7 +160,7 @@ exports.updateRelationship = async function (req, res) {
 };
 
 function updateFriends(user_id, friends_id, state) {
-    return User.findOneAndUpdate({
+    return User.updateOne({
         "_id": mongoose.Types.ObjectId(user_id),
         "friends.friends_id": mongoose.Types.ObjectId(friends_id)
     }, {
@@ -194,7 +186,6 @@ function removeFriend(user_id, friend_id) {
 }
 
 function addFriend(user_id, friend_id, state) {
-    console.log(state);
     return User.findOneAndUpdate({
             _id: user_id
         },
