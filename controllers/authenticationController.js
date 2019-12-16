@@ -14,8 +14,15 @@ exports.authentication = function (req, res) {
         if (token == null) {
             res.status(403);
         } else {
-            console.log(doc.id);
-            let array = {token: token, refresh_token: refreshToken, uid: doc.id};
+            let array = {token: token,
+                refresh_token: refreshToken,
+                _id: doc._id,
+                email: doc.email,
+                firstname: doc.firstname,
+                lastname: doc.lastname,
+                photo: doc.photo
+
+            };
             res.status(200).send(array);
         }
     })

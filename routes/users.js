@@ -1,6 +1,6 @@
-let express = require('express');
-let users_controller = require('../controllers/usersController');
-let router = express.Router();
+const express = require('express');
+const users_controller = require('../controllers/usersController');
+const router = express.Router();
 
 /* GET users listing. */
 router.get('/users', users_controller.users_list);
@@ -21,5 +21,7 @@ router.post('/revoke', users_controller.revokeToken);
 router.delete('/friends/:id', users_controller.deleteFriend);
 
 router.put('/friends', users_controller.updateRelationship);
+
+router.put('/photo/:id', users_controller.updatePhoto);
 
 module.exports = router;

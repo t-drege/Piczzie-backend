@@ -23,6 +23,21 @@ exports.user = function (req, res) {
     });
 };
 
+exports.updatePhoto = function (req, res) {
+    User.updateOne(
+        {"_id": mongoose.Types.ObjectId(req.params.id)}, // Filter
+        {"photo": req.body.path} // Update
+    )
+        .then((obj) => {
+            console.log(obj);
+            res.send(obj).status(200)
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500)
+        })
+};
+
 exports.users_list = function (req, res) {
     if (req.query.user !== "") {
         var regex = new RegExp(req.query.user, 'i');
