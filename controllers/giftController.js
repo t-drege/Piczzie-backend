@@ -1,11 +1,7 @@
-const blacklist = require('express-jwt-blacklist');
 const mongoose = require('mongoose');
 const Gift = require('../models/giftModel');
 const User = require('../models/usersModel');
-const upload = require('../utils/UploadConfig');
-const sizeOf = require('image-size');
 const fs = require('fs');
-let objectId = mongoose.Types.ObjectId;
 
 exports.create = function (req, res) {
     if (!req.file) {

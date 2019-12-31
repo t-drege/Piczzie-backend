@@ -9,10 +9,11 @@ exports.registration = function (req, res) {
 };
 
 exports.authentication = function (req, res) {
+    console.log(req);
     let user = new User(req.body);
     User.getAuthenticated(user, function (null_response, token, refreshToken, doc) {
         if (token == null) {
-            res.status(403);
+            res.status(403).send("error auth");
         } else {
             let array = {token: token,
                 refresh_token: refreshToken,

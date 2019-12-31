@@ -1,5 +1,6 @@
 const express = require('express');
 const users_controller = require('../controllers/usersController');
+const upload = require('../utils/UploadProfileConfig');
 const router = express.Router();
 
 /* GET users listing. */
@@ -22,6 +23,6 @@ router.delete('/friends/:id', users_controller.deleteFriend);
 
 router.put('/friends', users_controller.updateRelationship);
 
-router.put('/photo/:id', users_controller.updatePhoto);
+router.put('/photo/:id', upload.single('image'), users_controller.updatePhoto);
 
 module.exports = router;
