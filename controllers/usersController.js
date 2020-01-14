@@ -55,30 +55,13 @@ exports.users_list = function (req, res) {
     }
 };
 
-exports.refreshToken = function (req, res) {
-    jsonwebtoken.verify(req.body.token, config.TOKEN_SECRET, function (callback) {
-        if (callback != null) {
-            res.json(401);
-        } else {
-            let decode = jsonwebtoken.decode(req.body.token);
-            User.findOne({_id: decode.user._id}, function (err, user) {
-                let payload = {sub: user._id, user: user};
-                let token = jsonwebtoken.sign(payload, config.TOKEN_SECRET, {expiresIn: '1d'});
-                let refreshToken = jsonwebtoken.sign(payload, config.TOKEN_SECRET, {expiresIn: '7d'});
-                let array = {token: token, refresh_token: refreshToken};
 
-                blacklist.revoke(decode);
-
-                res.json(array);
-            });
-        }
-    });
-};
 
 exports.revokeToken = function (req, res) {
+    console.log(req.body);
     let decode = jsonwebtoken.decode(req.body.token);
     blacklist.revoke(decode);
-    res.json(200)
+    return res.status(200).send("ok");
 };
 
 

@@ -182,7 +182,7 @@ exports.getGiftsUser = function (req, res) {
             throw err;
         }
         res.status(200).send(gifts)
-    }).skip(Number(req.query.offset)).limit(20)
+    }).skip(Number(req.query.offset)).limit(10)
 };
 
 
