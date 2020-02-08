@@ -20,6 +20,9 @@ router.delete('/friends/:id', users_controller.deleteFriend);
 
 router.put('/friends', users_controller.updateRelationship);
 
-router.put('/photo/:id', upload.single('image'), users_controller.updatePhoto);
+router.post('/photo', upload.single('image'), users_controller.updatePhoto);
+
+
+router.put('/:id', users_controller.updateUserInformations);
 
 module.exports = router;

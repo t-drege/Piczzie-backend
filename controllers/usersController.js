@@ -2,7 +2,6 @@ const User = require('../models/usersModel');
 const jsonwebtoken = require('jsonwebtoken');
 const blacklist = require('express-jwt-blacklist');
 const mongoose = require('mongoose');
-const config = require('../config');
 
 exports.user = function (req, res) {
     User.findOne({_id: mongoose.Types.ObjectId(req.params.id)}, function (err, user) {
@@ -24,17 +23,16 @@ exports.user = function (req, res) {
 };
 
 exports.updatePhoto = function (req, res) {
-    User.updateOne(
-        {"_id": mongoose.Types.ObjectId(req.params.id)}, // Filter
-        {"photo": req.body.path} // Update
-    )
-        .then((obj) => {
-            console.log(obj);
-            res.send(obj).status(200)
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500)
+    User.findOneAndUpdate(
+        {"_id": mongoose.Types.ObjectId(JSON.parse(req.body.id))}, // Filter
+        {$set: {"photo": req.file.path}}, {"new": true}, function (err, doc) {
+            if (err) {
+                console.log(err);
+                res.status(500)
+            } else {
+                console.log(doc);
+                res.send(doc).status(200)
+            }
         })
 };
 
@@ -54,7 +52,6 @@ exports.users_list = function (req, res) {
         res.send([])
     }
 };
-
 
 
 exports.revokeToken = function (req, res) {
@@ -198,4 +195,20 @@ function addFriend(user_id, friend_id, state) {
                 }
         });
 }
+
+
+exports.updateUserInformations = function (req, res) {
+    console.log(req.body);
+    User.findOneAndUpdate(
+        {"_id": mongoose.Types.ObjectId(JSON.parse(req.path.id))}, // Filter
+        req.body.user, {"new": true}, function (err, doc) {
+            if (err) {
+                console.log(err);
+                res.status(500)
+            } else {
+                console.log(doc);
+                res.send(doc).status(200)
+            }
+        })
+};
 

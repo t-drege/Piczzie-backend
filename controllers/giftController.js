@@ -13,14 +13,10 @@ exports.create = function (req, res) {
         let gift = new Gift(JSON.parse(req.body.gift));
         gift.user_id = req.user.user._id;
         gift.image = req.file.path;
-
-        console.log(gift.width);
-        console.log(gift.height);
-
         gift.save(function (err) {
             return res.send({
                 success: true
-            })
+            }).status(200);
         });
     }
 };
@@ -157,7 +153,6 @@ exports.updateGiftUser = function (req, res) {
         remove: {},
         fields: {}
     }, function (err, gift) {
-        console.log(gift);
         if (err) {
             console.log(err);
             return res.status(500).send(err);
